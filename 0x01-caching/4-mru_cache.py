@@ -8,7 +8,6 @@ It implements a caching system using the
 Most Recently Used (MRU) algorithm.
 """
 
-from collections import OrderedDict
 BaseCaching = __import__('base_caching').BaseCaching
 
 
