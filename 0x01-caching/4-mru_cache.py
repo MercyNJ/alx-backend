@@ -30,9 +30,9 @@ class MRUCache(BaseCaching):
                 self.used.append(
                     self.used.pop(self.used.index(key)))
             if len(self.used) > BaseCaching.MAX_ITEMS:
-                discard = self.used.pop(-2)
-                del self.cache_data[discard]
-                print(f'DISCARD: {discard}')
+                discarded = self.used.pop(-2)
+                del self.cache_data[discarded]
+                print(f'DISCARD: {discarded}')
 
     def get(self, key):
         """Retrieve an item from the cache."""
