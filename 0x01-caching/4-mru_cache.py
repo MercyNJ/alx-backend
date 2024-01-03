@@ -8,34 +8,31 @@ It implements a caching system using the
 Most Recently Used (MRU) algorithm.
 """
 
+from collections import OrderedDict
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class MRUCache(BaseCaching):
     """MRUCache class that implements MRU algorithm."""
-
     def __init__(self):
-        """Initialize MRUCache."""
         super().__init__()
-        self.used = []
+        self.order = OrderedDict()
 
     def put(self, key, item):
-        """Add an item to the cache using MRU algorithm."""
         if key is not None and item is not None:
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
+                    and key not in self.cache_data.keys():
+                discarded_key, _ = self.order.popitem(last=True)
+                del self.cache_data[discarded_key]
+                print("DISCARD: {}".format(discarded_key))
+
             self.cache_data[key] = item
-            if key not in self.used:
-                self.used.append(key)
-            else:
-                self.used.append(
-                    self.used.pop(self.used.index(key)))
-            if len(self.used) > BaseCaching.MAX_ITEMS:
-                discarded = self.used.pop(-2)
-                del self.cache_data[discarded]
-                print('DISCARD: {:s}'.format(discarded))
+            self.order[key] = True
 
     def get(self, key):
-        """Retrieve an item from the cache."""
-        if key is not None and key in self.cache_data:
-            self.used.append(self.used.pop(self.used.index(key)))
-            return self.cache_data.get(key)
-        return None
+        if key is None or key not in self.cache_data:
+            return None
+
+        self.order.move_to_end(key)
+
+        return self.cache_data[key]
