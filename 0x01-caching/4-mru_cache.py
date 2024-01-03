@@ -13,12 +13,20 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 
 class MRUCache(BaseCaching):
-    """MRUCache class that implements MRU algorithm."""
+    """
+    MRUCache class that implements MRU algorithm.
+    """
     def __init__(self):
+        """
+        Initialization.
+        """
         super().__init__()
         self.order = OrderedDict()
 
     def put(self, key, item):
+        """
+        Add item to cache.
+        """
         if key is not None and item is not None:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
                     and key not in self.cache_data.keys():
@@ -30,6 +38,9 @@ class MRUCache(BaseCaching):
             self.order[key] = True
 
     def get(self, key):
+        """
+        Get an item by its key.
+        """
         if key is None or key not in self.cache_data:
             return None
 
