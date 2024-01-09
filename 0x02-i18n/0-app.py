@@ -5,7 +5,7 @@ Basic Flask app with single route.
 
 from flask import Flask, render_template
 
-app = Flak(__name__)
+app = Flask(__name__)
 
 
 @app.route('/')
