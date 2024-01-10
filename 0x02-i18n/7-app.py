@@ -69,7 +69,7 @@ def get_locale():
 
 
 @timezoneselector
-def get_timezone():
+def get_timezone() -> str:
     """
     Determine the best-matching time zone for the user.
     """
